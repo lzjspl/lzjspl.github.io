@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="NU-MCC.">
+  <meta name="keywords" content="NU-MCC, 3D Reconstruction">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NU-MCC: Multiview Compressive Coding with Neighborhood Decoder and Repulsive UDF</title>
+
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.png">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-2.9.0.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-2.9.0.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+
+<body>
+
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-size-2 publication-title">NU-MCC: Multiview Compressive Coding with Neighborhood Decoder and Repulsive UDF</h1>
+            <div class="is-size-5 publication-authors">
+              <span class="author-block">
+                <a href="https://github.com/splionar" target="_blank" rel="noopener noreferrer">Stefan Lionar</a><sup>1,2*</sup>,</span>
+              <span class="author-block">
+                <a href="https://sites.google.com/view/xiangyuxu" target="_blank" rel="noopener noreferrer">Xiangyu Xu</a><sup>1*</sup>,</span>
+              <span class="author-block">
+                <a href="https://linmin.me/" target="_blank" rel="noopener noreferrer">Min Lin</a><sup>1</sup>,</span>
+              <span class="author-block">
+                <a href="https://www.comp.nus.edu.sg/~leegh/" target="_blank" rel="noopener noreferrer">Gim Hee Lee</a><sup>2 </sup></span>
+            </div>
+
+            <div class="column is-full_width">
+              <h2 class="is-size-6">*Equal Contribution</h2>
+              <!-- <h2 class="is-size-6">(* equal contribution)  (<span>&#8224;</span> corresponding author)</h2> -->
+            </div>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><sup>1</sup>Sea AI Lab</span>&nbsp;&nbsp;
+              <span class="author-block"><sup>2</sup>National University of Singapore</span>
+
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <!-- PDF Link. -->
+                <span class="link-block">
+                  <a href="https://arxiv.org/pdf/2301.08247.pdf" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                    </span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+                <!-- Code Link. -->
+                <span class="link-block">
+                  <a href="https://github.com/facebookresearch/MCC" class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <!-- Abstract. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              Remarkable progress has been made in 3D reconstruction from single-view RGB-D inputs. MCC is the current state-of-the-art
+               method in this field, which achieves unprecedented success by combining vision Transformers with large-scale training. However, 
+               we identified two key limitations of MCC: 1) The Transformer decoder is inefficient in handling large number of query points;
+                2) The 3D representation struggles to recover high-fidelity details. In this paper, we propose a new approach called NU-MCC that 
+                addresses these limitations. NU-MCC includes two key innovations: a Neighborhood decoder and a Repulsive Unsigned Distance 
+                Function (Repulsive UDF). First, our Neighborhood decoder introduces center points as an efficient proxy of input visual features, 
+                allowing each query point to only attend to a small neighborhood. This design not only results in much faster inference speed 
+                but also enables the exploitation of finer-scale visual features for improved recovery of 3D textures. Second, our Repulsive UDF 
+                is a novel alternative to the occupancy field used in MCC, significantly improving the quality of 3D object reconstruction. 
+                Compared to standard UDFs that suffer from holes in results, our proposed Repulsive UDF can achieve more complete surface 
+                reconstruction. Experimental results demonstrate that NU-MCC is able to learn a strong 3D representation, significantly
+                 advancing the state of the art in single-view 3D reconstruction. Particularly, it outperforms MCC by 9.7% in terms of the 
+                 F1-score on the CO3D-v2 dataset with more than 5x faster running speed.
+            </p>
+          </div>
+        </div>
+      </div>
+      <!--/ Abstract. -->
+    </div>
+  </section>
+
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <!-- Approach. -->
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Approach</h2>
+
+          <div class="content has-text-justified">
+            <p>
+              MCC adopts a simple encoder-decoder architecture. The input RGB-D image is fed to the encoder to produce
+              an input encoding. The decoder inputs a query 3D point, along with the input encoding, to predict its
+              occupancy probability and RGB color. This is illustrated in the figure below. MCC requires only points for
+              supervision. This means that we can learn from large RGB-D datasets. The input channel D is read from
+              depth sensors, as in iPhones, or computed by off-the-shelf depth models, e.g. <a
+                href="https://github.com/isl-org/MiDaS">MiDas</a>, or computed by <a
+                href="https://colmap.github.io/">COLMAP</a> in the case of multiview video streams.
+            </p>
+            <img src="static/images/model.jpg" alt="Approach" width="100%">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full-width">
+          <h2 class="title is-3">Results</h2>
+          <div class="tabs is-boxed is-centered is-medium" id="tabs">
+            <ul>
+              <li data-tab="co3d" class="is-active"><a>CO3D</a></li>
+              <li data-tab="iphone"><a>iPhone</a></li>
+              <li data-tab="stablediffusion"><a>Stable Diffusion</a></li>
+              <li data-tab="imagenet"><a>ImageNet</a></li>
+              <li data-tab="hypersim"><a>Hypersim</a></li>
+              <li data-tab="taskonomy"><a>Taskonomy</a></li>
+            </ul>
+          </div>
+          <div class="columns is-centered has-text-left">
+            <div class="column is-two-thirds content">
+              <p>Here we show some examples of using MCC to reconstruct a full 3D object from a single RGB-D image.
+              We show the input image, a "seen" point cloud combining the pixels and depths of each input pixel,
+              and the resulting object predicted by MCC.</p>
+              <p>Click the "3D" button next to each prediction to view it in 3D!</p>
+            </div>
+          </div>
+          <div id="tabs-content">
+            <div data-content="co3d" class="tab-content is-active content has-text-left">
+              <div class="columns is-centered has-text-left">
+                <div class="column is-two-thirds content">
+                  MCC works out of the box on novel object categories never seen during training.
+                  We used the LiDAR sensor of an iPhone 14 Pro to capture RGB-D images of objects around our homes
+                  (using <a href="https://record3d.app/">Record3D</a>) and found that MCC gives reasonable
+                  reconstructions in this zero-shot setting.
+                </div>
+              </div>
+              <table width="100%" class="center">
+                <tr>
+                  <th width="17%" align="center"></th>
+                  <th width="16%" align="center">Input</th>
+                  <th width="16%" align="center">Seen</th>
+                  <th width="16%" align="center">MCC</th>
+                  <th width="16%" align="center">Ours</th>
+                  <th width="2%" align="center"></th>
+                  <th width="17%" align="center"></th>
+                </tr>
+
+                <tr>
+                  <td align="center"></td>
+                  <td align="center" style="vertical-align: middle"><img class="imgg" data-src="static/resources/co3d/plant/im.png"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/co3d/plant/seen.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/co3d/plant/mcc.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/co3d/plant/udf.gif"></td>
+                  <td align="center" style="vertical-align: middle">
+                    <button class="button is-rounded is-dark js-modal-trigger" data-target="modal"
+                      data-path="iphone/chair">3D</button>
+                  </td>
+                  <td align="center"></td>
+                </tr>
+
+                <tr>
+                  <td align="center"></td>
+                  <td align="center" style="vertical-align: middle"><img class="imgg" data-src="static/resources/co3d/teddy/im.png"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/co3d/teddy/seen.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/co3d/teddy/mcc.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/co3d/teddy/udf.gif"></td>
+                  <td align="center" style="vertical-align: middle">
+                    <button class="button is-rounded is-dark js-modal-trigger" data-target="modal"
+                      data-path="iphone/chair">3D</button>
+                  </td>
+                  <td align="center"></td>
+                </tr>
+
+                <tr>
+                  <td align="center"></td>
+                  <td align="center" style="vertical-align: middle"><img class="imgg" data-src="static/resources/co3d/vase/im.png"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/co3d/vase/seen.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/co3d/vase/mcc.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/co3d/vase/udf.gif"></td>
+                  <td align="center" style="vertical-align: middle">
+                    <button class="button is-rounded is-dark js-modal-trigger" data-target="modal"
+                      data-path="iphone/chair">3D</button>
+                  </td>
+                  <td align="center"></td>
+                </tr>
+
+
+                <tr>
+                  <td align="center"></td>
+                  <td align="center" style="vertical-align: middle"><img class="imgg" data-src="static/resources/co3d/motorcycle/im.png"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/co3d/motorcycle/seen.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/co3d/motorcycle/mcc.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/co3d/motorcycle/udf.gif"></td>
+                  <td align="center" style="vertical-align: middle">
+                    <button class="button is-rounded is-dark js-modal-trigger" data-target="modal"
+                      data-path="iphone/chair">3D</button>
+                  </td>
+                  <td align="center"></td>
+                </tr>
+
+                <tr>
+                  <td align="center"></td>
+                  <td align="center" style="vertical-align: middle"><img class="imgg" data-src="static/resources/co3d/apple/im.png"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/co3d/apple/seen.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/co3d/apple/mcc.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/co3d/apple/udf.gif"></td>
+                  <td align="center" style="vertical-align: middle">
+                    <button class="button is-rounded is-dark js-modal-trigger" data-target="modal"
+                      data-path="co3d/apple">3D</button>
+                  </td>
+                  <td align="center"></td>
+                </tr>
+
+
+
+                <tr>
+                  <td align="center"></td>
+                  <td align="center" style="vertical-align: middle"><img class="imgg" data-src="static/resources/co3d/toyplane/im.png"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/co3d/toyplane/seen.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/co3d/toyplane/mcc.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/co3d/toyplane/udf.gif"></td>
+                  <td align="center" style="vertical-align: middle">
+                    <button class="button is-rounded is-dark js-modal-trigger" data-target="modal"
+                      data-path="iphone/chair">3D</button>
+                  </td>
+                  <td align="center"></td>
+                </tr>
+
+
+                <tr>
+                  <td align="center"></td>
+                  <td align="center" style="vertical-align: middle"><img class="imgg" data-src="static/resources/co3d/hydrant/im.png"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/co3d/hydrant/seen.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/co3d/hydrant/mcc.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/co3d/hydrant/udf.gif"></td>
+                  <td align="center" style="vertical-align: middle">
+                    <button class="button is-rounded is-dark js-modal-trigger" data-target="modal"
+                      data-path="iphone/chair">3D</button>
+                  </td>
+                  <td align="center"></td>
+                </tr>
+
+                <tr>
+                  <td align="center"></td>
+                  <td align="center" style="vertical-align: middle"><img class="imgg" data-src="static/resources/co3d/broccoli/im.png"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/co3d/broccoli/seen.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/co3d/broccoli/mcc.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/co3d/broccoli/udf.gif"></td>
+                  <td align="center" style="vertical-align: middle">
+                    <button class="button is-rounded is-dark js-modal-trigger" data-target="modal"
+                      data-path="iphone/chair">3D</button>
+                  </td>
+                  <td align="center"></td>
+                </tr>
+
+                
+               
+               
+              </table>
+            </div>
+            <div data-content="iphone" class="tab-content content">
+              <div class="columns is-centered has-text-left">
+                <div class="column is-two-thirds content">
+                  MCC works on images generated from <a href="https://openai.com/dall-e-2/">DALL<span>&#183;</span>E 2</a>.
+                  Since the generated images do not include depth, we use
+                  <a href="https://github.com/isl-org/DPT">an off-the-shelf depth prediction model</a>
+                  to estimate depth for these images before feeding to MCC.
+                </div>
+              </div>
+              <table width="100%">
+
+               <tr>
+                  <th width="17%" align="center"></th>
+                  <th width="16%" align="center">Input</th>
+                  <th width="16%" align="center">Seen</th>
+                  <th width="16%" align="center">MCC</th>
+                  <th width="16%" align="center">Ours</th>
+                  <th width="2%" align="center"></th>
+                  <th width="17%" align="center"></th>
+                </tr>
+
+                <tr>
+                  <td align="center"></td>
+                  <td align="center" style="vertical-align: middle"><img class="imgg" data-src="static/resources/iphone/lotus/im.png"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/iphone/lotus/seen.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/iphone/lotus/mcc.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/iphone/lotus/udf.gif"></td>
+                  <td align="center" style="vertical-align: middle">
+                    <button class="button is-rounded is-dark js-modal-trigger" data-target="modal"
+                      data-path="iphone/chair">3D</button>
+                  </td>
+                  <td align="center"></td>
+                </tr>
+
+                <tr>
+                  <td align="center"></td>
+                  <td align="center" style="vertical-align: middle"><img class="imgg" data-src="static/resources/iphone/luggage/im.png"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/iphone/luggage/seen.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/iphone/luggage/mcc.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/iphone/luggage/udf.gif"></td>
+                  <td align="center" style="vertical-align: middle">
+                    <button class="button is-rounded is-dark js-modal-trigger" data-target="modal"
+                      data-path="iphone/chair">3D</button>
+                  </td>
+                  <td align="center"></td>
+                </tr>
+
+                <tr>
+                  <td align="center"></td>
+                  <td align="center" style="vertical-align: middle"><img class="imgg" data-src="static/resources/iphone/headset/im.png"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/iphone/headset/seen.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/iphone/headset/mcc.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/iphone/headset/udf.gif"></td>
+                  <td align="center" style="vertical-align: middle">
+                    <button class="button is-rounded is-dark js-modal-trigger" data-target="modal"
+                      data-path="iphone/chair">3D</button>
+                  </td>
+                  <td align="center"></td>
+                </tr>
+
+                <tr>
+                  <td align="center"></td>
+                  <td align="center" style="vertical-align: middle"><img class="imgg" data-src="static/resources/iphone/toycar/im.png"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/iphone/toycar/seen.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/iphone/toycar/mcc.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/iphone/toycar/udf.gif"></td>
+                  <td align="center" style="vertical-align: middle">
+                    <button class="button is-rounded is-dark js-modal-trigger" data-target="modal"
+                      data-path="iphone/chair">3D</button>
+                  </td>
+                  <td align="center"></td>
+                </tr>
+
+                <tr>
+                  <td align="center"></td>
+                  <td align="center" style="vertical-align: middle"><img class="imgg" data-src="static/resources/iphone/stool/im.png"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/iphone/stool/seen.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/iphone/stool/mcc.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/iphone/stool/udf.gif"></td>
+                  <td align="center" style="vertical-align: middle">
+                    <button class="button is-rounded is-dark js-modal-trigger" data-target="modal"
+                      data-path="iphone/chair">3D</button>
+                  </td>
+                  <td align="center"></td>
+                </tr>
+
+                <tr>
+                  <td align="center"></td>
+                  <td align="center" style="vertical-align: middle"><img class="imgg" data-src="static/resources/iphone/mouse/im.png"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/iphone/mouse/seen.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/iphone/mouse/mcc.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/iphone/mouse/udf.gif"></td>
+                  <td align="center" style="vertical-align: middle">
+                    <button class="button is-rounded is-dark js-modal-trigger" data-target="modal"
+                      data-path="iphone/chair">3D</button>
+                  </td>
+                  <td align="center"></td>
+                </tr>
+
+                <tr>
+                  <td align="center"></td>
+                  <td align="center" style="vertical-align: middle"><img class="imgg" data-src="static/resources/iphone/dettol/im.png"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/iphone/dettol/seen.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/iphone/dettol/mcc.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/iphone/dettol/udf.gif"></td>
+                  <td align="center" style="vertical-align: middle">
+                    <button class="button is-rounded is-dark js-modal-trigger" data-target="modal"
+                      data-path="iphone/chair">3D</button>
+                  </td>
+                  <td align="center"></td>
+                </tr>
+
+                <tr>
+                  <td align="center"></td>
+                  <td align="center" style="vertical-align: middle"><img class="imgg" data-src="static/resources/iphone/cat/im.png"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/iphone/cat/seen.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/iphone/cat/mcc.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/iphone/cat/udf.gif"></td>
+                  <td align="center" style="vertical-align: middle">
+                    <button class="button is-rounded is-dark js-modal-trigger" data-target="modal"
+                      data-path="iphone/chair">3D</button>
+                  </td>
+                  <td align="center"></td>
+                </tr>
+
+              </table>
+            </div>
+
+            <div data-content="stablediffusion" class="tab-content content">
+              <div class="columns is-centered has-text-left">
+                <div class="column is-two-thirds content">
+                  MCC was trained on the <a href="https://github.com/facebookresearch/co3d">CO3D dataset</a>.
+                  Here we show predictions from CO3D categories that were not seen during training.
+                </div>
+              </div>
+              <table width="100%">
+                <tr>
+                  <th width="17%" align="center"></th>
+                  <th width="16%" align="center">Input</th>
+                  <th width="16%" align="center">Seen</th>
+                  <th width="16%" align="center">MCC</th>
+                  <th width="16%" align="center">Ours</th>
+                  <th width="2%" align="center"></th>
+                  <th width="17%" align="center"></th>
+                </tr>
+
+                <tr>
+                  <td align="center"></td>
+                  <td align="center" style="vertical-align: middle"><img class="imgg" data-src="static/resources/stablediffusion/cavachon/im.png"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/stablediffusion/cavachon/seen.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/stablediffusion/cavachon/mcc.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/stablediffusion/cavachon/udf.gif"></td>
+                  <td align="center" style="vertical-align: middle">
+                    <button class="button is-rounded is-dark js-modal-trigger" data-target="modal"
+                      data-path="iphone/chair">3D</button>
+                  </td>
+                  <td align="center"></td>
+                </tr>
+
+                <tr>
+                  <td align="center"></td>
+                  <td align="center" style="vertical-align: middle"><img class="imgg" data-src="static/resources/stablediffusion/gudetama/im.png"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/stablediffusion/gudetama/seen.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/stablediffusion/gudetama/mcc.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/stablediffusion/gudetama/udf.gif"></td>
+                  <td align="center" style="vertical-align: middle">
+                    <button class="button is-rounded is-dark js-modal-trigger" data-target="modal"
+                      data-path="iphone/chair">3D</button>
+                  </td>
+                  <td align="center"></td>
+                </tr>
+
+                <tr>
+                  <td align="center"></td>
+                  <td align="center" style="vertical-align: middle"><img class="imgg" data-src="static/resources/stablediffusion/otter/im.png"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/stablediffusion/otter/seen.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/stablediffusion/otter/mcc.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/stablediffusion/otter/udf.gif"></td>
+                  <td align="center" style="vertical-align: middle">
+                    <button class="button is-rounded is-dark js-modal-trigger" data-target="modal"
+                      data-path="iphone/chair">3D</button>
+                  </td>
+                  <td align="center"></td>
+                </tr>
+
+                <tr>
+                  <td align="center"></td>
+                  <td align="center" style="vertical-align: middle"><img class="imgg" data-src="static/resources/stablediffusion/marshmallow/im.png"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/stablediffusion/marshmallow/seen.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/stablediffusion/marshmallow/mcc.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/stablediffusion/marshmallow/udf.gif"></td>
+                  <td align="center" style="vertical-align: middle">
+                    <button class="button is-rounded is-dark js-modal-trigger" data-target="modal"
+                      data-path="iphone/chair">3D</button>
+                  </td>
+                  <td align="center"></td>
+                </tr>
+
+
+              </table>
+            </div>
+
+            <div data-content="imagenet" class="tab-content content">
+              <div class="columns is-centered has-text-left">
+                <div class="column is-two-thirds content">
+                  MCC generalizes to novel object categories from ImageNet.
+                  Since ImageNet images do not include depth, we use
+                  <a href="https://github.com/isl-org/DPT">an off-the-shelf depth prediction model</a>
+                  to estimate depth for these images before feeding to MCC.
+                </div>
+              </div>
+              <table width="100%">
+
+                <tr>
+                  <th width="17%" align="center"></th>
+                  <th width="16%" align="center">Input</th>
+                  <th width="16%" align="center">Seen</th>
+                  <th width="16%" align="center">MCC</th>
+                  <th width="16%" align="center">Ours</th>
+                  <th width="2%" align="center"></th>
+                  <th width="17%" align="center"></th>
+                </tr>
+
+               <tr>
+                  <td align="center"></td>
+                  <td align="center" style="vertical-align: middle"><img class="imgg" data-src="static/resources/imagenet/lawnmower/im.JPEG"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/imagenet/lawnmower/seen.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/imagenet/lawnmower/mcc.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/imagenet/lawnmower/udf.gif"></td>
+                  <td align="center" style="vertical-align: middle">
+                    <button class="button is-rounded is-dark js-modal-trigger" data-target="modal"
+                      data-path="iphone/chair">3D</button>
+                  </td>
+                  <td align="center"></td>
+                </tr>
+
+                <tr>
+                  <td align="center"></td>
+                  <td align="center" style="vertical-align: middle"><img class="imgg" data-src="static/resources/imagenet/bird/im.JPEG"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/imagenet/bird/seen.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/imagenet/bird/mcc.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/imagenet/bird/udf.gif"></td>
+                  <td align="center" style="vertical-align: middle">
+                    <button class="button is-rounded is-dark js-modal-trigger" data-target="modal"
+                      data-path="iphone/chair">3D</button>
+                  </td>
+                  <td align="center"></td>
+                </tr>
+
+                <tr>
+                  <td align="center"></td>
+                  <td align="center" style="vertical-align: middle"><img class="imgg" data-src="static/resources/imagenet/dog/im.JPEG"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/imagenet/dog/seen.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/imagenet/dog/mcc.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/imagenet/dog/udf.gif"></td>
+                  <td align="center" style="vertical-align: middle">
+                    <button class="button is-rounded is-dark js-modal-trigger" data-target="modal"
+                      data-path="iphone/chair">3D</button>
+                  </td>
+                  <td align="center"></td>
+                </tr>
+
+                <tr>
+                  <td align="center"></td>
+                  <td align="center" style="vertical-align: middle"><img class="imgg" data-src="static/resources/imagenet/canon/im.JPEG"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/imagenet/canon/seen.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/imagenet/canon/mcc.gif"></td>
+                  <td align="center"><img class="imgg" data-src="static/resources/imagenet/canon/udf.gif"></td>
+                  <td align="center" style="vertical-align: middle">
+                    <button class="button is-rounded is-dark js-modal-trigger" data-target="modal"
+                      data-path="iphone/chair">3D</button>
+                  </td>
+                  <td align="center"></td>
+                </tr>
+
+               
+              </table>
+            </div>
+            <div data-content="hypersim" class="tab-content content">
+              <div class="columns is-centered has-text-left">
+                <div class="column is-two-thirds content">
+                  MCC works not only on objects, but also on entire scenes.
+                  We retrain the model on the <a href="https://github.com/apple/ml-hypersim">Hypersim</a> dataset,
+                  and show single-image scene reconstructions on novel scenes not seen during training.
+                </div>
+              </div>
+              <table width="100%">
+                <tr>
+                  <th width="12%" align="center">Input</th>
+                  <th width="16%" align="center">Seen</th>
+                  <th width="16%" align="center">MCC</th>
+                  <th width="16%" align="center">Ours</th>
+                  <th width="2%" align="center"></th>
+                </tr>
+                <tr>
+                  <td width="12%"  align="center"><img data-src="static/resources/iphone/chair/img.jpg"></td>
+                  <td width="16%" align="center"><img data-src="static/resources/iphone/chair/seen.gif"></td>
+                  <td width="16%" align="center"><img data-src="static/resources/iphone/chair/mcc.gif"></td>
+                  <td width="16%" align="center"><img data-src="static/resources/iphone/chair/mcc.gif"></td>
+                  <td width="2%" align="center" style="vertical-align: middle">
+                    <button class="button is-rounded is-dark js-modal-trigger" data-target="modal"
+                      data-path="iphone/chair">3D</button>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td width="12%"  align="center"><img data-src="static/resources/iphone/chair/img.jpg"></td>
+                  <td width="16%" align="center"><img data-src="static/resources/iphone/chair/seen.gif"></td>
+                  <td width="16%" align="center"><img data-src="static/resources/iphone/chair/mcc.gif"></td>
+                  <td width="16%" align="center"><img data-src="static/resources/iphone/chair/mcc.gif"></td>
+                  <td width="2%" align="center" style="vertical-align: middle">
+                    <button class="button is-rounded is-dark js-modal-trigger" data-target="modal"
+                      data-path="iphone/chair">3D</button>
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+            <div data-content="taskonomy" class="tab-content content">
+              <div class="columns is-centered has-text-left">
+                <div class="column is-two-thirds content">
+                  MCC can also generalize zero-shot to novel scene datasets.
+                  After training the model on the <a href="https://github.com/apple/ml-hypersim">Hypersim</a> dataset,
+                  we show single-image scene reconstructions on novel scenes from <a href="http://taskonomy.stanford.edu/">Taskonomy</a>.
+                </div>
+              </div>
+              <table width="100%">
+                <tr>
+                  <th width="12%" align="center">Input</th>
+                  <th width="16%" align="center">Seen</th>
+                  <th width="16%" align="center">MCC</th>
+                  <th width="16%" align="center">Ours</th>
+                  <th width="2%" align="center"></th>
+                </tr>
+                <tr>
+                  <td width="12%"  align="center"><img data-src="static/resources/iphone/chair/img.jpg"></td>
+                  <td width="16%" align="center"><img data-src="static/resources/iphone/chair/seen.gif"></td>
+                  <td width="16%" align="center"><img data-src="static/resources/iphone/chair/mcc.gif"></td>
+                  <td width="16%" align="center"><img data-src="static/resources/iphone/chair/mcc.gif"></td>
+                  <td width="2%" align="center" style="vertical-align: middle">
+                    <button class="button is-rounded is-dark js-modal-trigger" data-target="modal"
+                      data-path="iphone/chair">3D</button>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td width="12%"  align="center"><img data-src="static/resources/iphone/chair/img.jpg"></td>
+                  <td width="16%" align="center"><img data-src="static/resources/iphone/chair/seen.gif"></td>
+                  <td width="16%" align="center"><img data-src="static/resources/iphone/chair/mcc.gif"></td>
+                  <td width="16%" align="center"><img data-src="static/resources/iphone/chair/mcc.gif"></td>
+                  <td width="2%" align="center" style="vertical-align: middle">
+                    <button class="button is-rounded is-dark js-modal-trigger" data-target="modal"
+                      data-path="iphone/chair">3D</button>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre><code>@article{wu2023multiview,
+  author    = {Wu, Chao-Yuan and Johnson, Justin and Malik, Jitendra and Feichtenhofer, Christoph and Gkioxari, Georgia},
+  title     = {Multiview Compressive Coding for 3{D} Reconstruction},
+  journal   = {arXiv:2301.08247},
+  year      = {2023},
+}</code></pre>
+    </div>
+  </section>
+
+  <div id="modal" class="modal">
+    <div class="modal-background"></div>
+
+    <div class="modal-content">
+      <div id='plot-loading-div' class="box">
+        Loading model...
+      </div>
+      <div id='plot-div'></div>
+    </div>
+
+    <button class="modal-close is-large" aria-label="close"></button>
+  </div>
+
+</body>
+
+</html>
