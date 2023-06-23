@@ -123,6 +123,7 @@ function setupModals() {
         scene: {
           aspectmode: 'cube',
           xaxis: {
+            range: data.xaxis_range,
             showgrid: false,
             zeroline: false,
             showline: false,
@@ -130,6 +131,7 @@ function setupModals() {
             showaxeslabels: false,
           },
           yaxis: {
+            range: data.yaxis_range,
             showgrid: false,
             zeroline: false,
             showline: false,
@@ -137,6 +139,7 @@ function setupModals() {
             showaxeslabels: false,
           },
           zaxis: {
+            range: data.zaxis_range,
             showgrid: false,
             zeroline: false,
             showline: false,
