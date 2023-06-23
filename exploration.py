@@ -1,10 +1,4 @@
 import json
-fn = "/Users/lionars/01_projects/intractablecat.github.io/static/resources/iphone/chair/pointcloud.json"
-f = open(fn)
-data = json.load(f)
-
-
-import json
 from bs4 import BeautifulSoup
 
 url = "/Users/lionars/00_neurips/output_udf.html"
