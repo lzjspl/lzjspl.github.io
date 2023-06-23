@@ -71,11 +71,6 @@ zaxis_range = zaxis_json['zaxis']['range']
 print(zaxis_range)
 
 
-dictionary = {}
-dictionary['x'] = x_json['x']
-dictionary['y'] = y_json['y']
-dictionary['z'] = z_json['z']
-dictionary['color'] = c_json['color']
 
 dictionary = {}
 dictionary['x'] = x_json['x']
