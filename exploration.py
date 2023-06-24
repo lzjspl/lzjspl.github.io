@@ -1,7 +1,7 @@
 import json
 from bs4 import BeautifulSoup
 
-url = "/Users/lionars/00_neurips/output_udf.html"
+url = "/Users/lionars/00_neurips/000.html"
 soup = BeautifulSoup(open(url))
 text = soup.get_text()
 
