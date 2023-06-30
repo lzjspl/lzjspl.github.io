@@ -6,7 +6,7 @@
   <meta name="description" content="MCC.">
   <meta name="keywords" content="MCC, 3D Reconstruction">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Multiview Compressive Coding for 3D Reconstruction</title>
+  <title>NU-MCC: Multiview Compressive Coding with Neighborhood Decoder and Repulsive UDF</title>
 
 
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
@@ -36,50 +36,41 @@
       <div class="container is-max-desktop">
         <div class="columns is-centered">
           <div class="column has-text-centered">
-            <h1 class="title is-1 publication-title">Multiview Compressive Coding for 3D Reconstruction</h1>
+            <h1 class="title is-2 publication-title">NU-MCC: Multiview Compressive Coding with Neighborhood Decoder and Repulsive UDF</h1>
             <div class="is-size-5 publication-authors">
               <span class="author-block">
-                <a href="https://chaoyuan.org/" target="_blank" rel="noopener noreferrer">Chao-Yuan Wu</a>,</span>
+                <a href="https://github.com/splionar" target="_blank" rel="noopener noreferrer">Stefan Lionar</a><sup>1,2*</sup>,</span>
               <span class="author-block">
-                <a href="https://web.eecs.umich.edu/~justincj/" target="_blank" rel="noopener noreferrer">Justin
-                  Johnson</a>,</span>
+                <a href="https://sites.google.com/view/xiangyuxu" target="_blank" rel="noopener noreferrer">Xiangyu Xu</a><sup>1*</sup>,</span>
               <span class="author-block">
-                <a href="https://people.eecs.berkeley.edu/~malik/" target="_blank" rel="noopener noreferrer">Jitendra
-                  Malik</a>,</span>
+                <a href="https://linmin.me/" target="_blank" rel="noopener noreferrer">Min Lin</a><sup>1</sup>,</span>
               <span class="author-block">
-                <a href="https://feichtenhofer.github.io/" target="_blank" rel="noopener noreferrer">Christoph
-                  Feichntenhofer</a>,</span>
-              <span class="author-block">
-                <a href="https://gkioxari.github.io/" target="_blank" rel="noopener noreferrer">Georgia
-                  Gkioxari</a></span>
+                <a href="https://www.comp.nus.edu.sg/~leegh/" target="_blank" rel="noopener noreferrer">Gim Hee Lee</a><sup>2 </sup></span>
+            </div>
+
+            <div class="column is-full_width">
+              <h2 class="is-size-6">*Equal Contribution</h2>
             </div>
 
             <div class="is-size-5 publication-authors">
-              <span class="author-block">Meta AI</span>
+              <span class="author-block"><sup>1</sup>Sea AI Lab</span>&nbsp;&nbsp;
+              <span class="author-block"><sup>2</sup>National University of Singapore</span>
             </div>
 
             <div class="column has-text-centered">
               <div class="publication-links">
                 <!-- PDF Link. -->
                 <span class="link-block">
-                  <a href="https://arxiv.org/pdf/2301.08247.pdf" class="external-link button is-normal is-rounded is-dark">
+                  <a href="https://github.com/splionar" class="external-link button is-normal is-rounded is-dark">
                     <span class="icon">
                       <i class="fas fa-file-pdf"></i>
                     </span>
                     <span>Paper</span>
                   </a>
                 </span>
-                <span class="link-block">
-                  <a href="https://arxiv.org/abs/2301.08247" class="external-link button is-normal is-rounded is-dark">
-                    <span class="icon">
-                      <i class="ai ai-arxiv"></i>
-                    </span>
-                    <span>arXiv</span>
-                  </a>
-                </span>
                 <!-- Code Link. -->
                 <span class="link-block">
-                  <a href="https://github.com/facebookresearch/MCC" class="external-link button is-normal is-rounded is-dark">
+                  <a href="https://github.com/splionar" class="external-link button is-normal is-rounded is-dark">
                     <span class="icon">
                       <i class="fab fa-github"></i>
                     </span>
@@ -97,14 +88,24 @@
 
   <section class="hero teaser">
     <div class="container is-max-desktop">
-
       <div class="hero-body">
         <video id="teaser" autoplay muted loop playsinline height="80%">
-          <source src="static/videos/mcc.mp4" type="video/mp4">
+          <source src="static/videos/animation.mp4"
+                  type="video/mp4">
         </video>
+        <div class="columns is-centered has-text-centered">
+            <div class="content has-text-centered">
+              <p>
+                NU-MCC is a novel single-view 3D reconstruction method from RGB-D image based on the framework 
+                of <a href="https://mcc3d.github.io/">Multiview Compressive Coding for 3D reconstruction (MCC)</a> with faster running speed and higher-quality reconstruction. 
+              </p>
+            </div>
+        </div>
       </div>
     </div>
   </section>
+  
+
 
 
   <section class="section">
@@ -115,23 +116,19 @@
           <h2 class="title is-3">Abstract</h2>
           <div class="content has-text-justified">
             <p>
-              MCC is a new approach for 3D reconstruction from a single RGB-D image.
-            </p>
-            <p>
-              A central goal of visual recognition is to understand objects and scenes from a single image.
-              2D recognition has witnessed tremendous progress thanks to large-scale learning and general-purpose
-              representations.
-              But, 3D poses new challenges stemming from occlusions not depicted in the image.
-              Prior works try to overcome these by inferring from multiple views or rely on scarce CAD models and
-              category-specific priors which hinder scaling to novel settings.
-              In this work, we explore single-view 3D reconstruction by learning generalizable representations inspired
-              by advances in self-supervised learning.
-              We introduce a simple framework that operates on 3D points of single objects or whole scenes coupled with
-              category-agnostic large-scale training from diverse RGB-D videos.
-              Our model, Multiview Compressive Coding (MCC), learns to compress the input appearance and geometry to
-              predict the 3D structure by querying a 3D-aware decoder.
-              MCC's generality and efficiency allow it to learn from large-scale and diverse data sources with strong
-              generalization to novel objects imagined by DALLE 2 or captured in-the-wild with an iPhone.
+              Remarkable progress has been made in 3D reconstruction from single-view RGB-D inputs. MCC is the current state-of-the-art
+               method in this field, which achieves unprecedented success by combining vision Transformers with large-scale training. However, 
+               we identified two key limitations of MCC: 1) The Transformer decoder is inefficient in handling large number of query points;
+                2) The 3D representation struggles to recover high-fidelity details. In this paper, we propose a new approach called NU-MCC that 
+                addresses these limitations. NU-MCC includes two key innovations: a Neighborhood decoder and a Repulsive Unsigned Distance 
+                Function (Repulsive UDF). First, our Neighborhood decoder introduces center points as an efficient proxy of input visual features, 
+                allowing each query point to only attend to a small neighborhood. This design not only results in much faster inference speed 
+                but also enables the exploitation of finer-scale visual features for improved recovery of 3D textures. Second, our Repulsive UDF 
+                is a novel alternative to the occupancy field used in MCC, significantly improving the quality of 3D object reconstruction. 
+                Compared to standard UDFs that suffer from holes in results, our proposed Repulsive UDF can achieve more complete surface 
+                reconstruction. Experimental results demonstrate that NU-MCC is able to learn a strong 3D representation, significantly
+                 advancing the state of the art in single-view 3D reconstruction. Particularly, it outperforms MCC by 9.7% in terms of the 
+                 F1-score on the CO3D-v2 dataset with more than 5x faster running speed.
             </p>
           </div>
         </div>
@@ -139,7 +136,6 @@
       <!--/ Abstract. -->
     </div>
   </section>
-
 
   <section class="section">
     <div class="container is-max-desktop">
@@ -149,27 +145,51 @@
           <h2 class="title is-3">Approach</h2>
 
           <div class="content has-text-justified">
-            <p>
-              MCC adopts a simple encoder-decoder architecture. The input RGB-D image is fed to the encoder to produce
-              an input encoding. The decoder inputs a query 3D point, along with the input encoding, to predict its
-              occupancy probability and RGB color. This is illustrated in the figure below. MCC requires only points for
-              supervision. This means that we can learn from large RGB-D datasets. The input channel D is read from
-              depth sensors, as in iPhones, or computed by off-the-shelf depth models, e.g. <a
-                href="https://github.com/isl-org/MiDaS">MiDas</a>, or computed by <a
-                href="https://colmap.github.io/">COLMAP</a> in the case of multiview video streams.
+            
+
+            <p><h2 class="title is-3">Overview</h2>
+              <img src="static/images/pipeline.png" alt="Overview" width="100%">
+              Given an input single-view RGB-D image, we first unproject the pixels into the 3D world frame, resulting in a textured partial point cloud. 
+              We then employ a standard ViT to extract visual features from the partial point cloud. Next, we introduce our Neighborhood Decoder, 
+              which utilizes the extracted visual features to estimate the UDF and RGB values of each query point  in 3D space. 
+               The Neighborhood Decoder allows each query point (blue star in the figure) to attend to only a small set of features in its neighborhood and incorporate fine-scale information 
+               directly from the input, significantly improving the efficiency and reconstruction quality. During inference, the predicted UDF is used to shift the query points to the surface of the 3D object, 
+               leading to high-quality 3D reconstruction. Repulsive forces between query points are employed to fix the hole artifacts in the standard UDF.
+
+               <h2 class="title is-3">Repulsive UDF</h2>
+               
             </p>
-            <img src="static/images/model.jpg" alt="Approach" width="100%">
+            
           </div>
+          
+          <img src="static/images/rudf.png" alt="Repulsive UDF" width="56%">
+          
+          <div class="content has-text-justified">
+            <p>The standard UDF formulation allows the generation of dense points around surfaces by shifting query points guided by their UDFs and UDF gradients. However, the standard formulation favors 
+              regions with high-curvature and thus results in hole artifacts. We introduce repulsion forces among the query points to produce uniform point distribution on the surface.
+            </p>   
+          </div>
+          
+          <img src="static/images/repulsive_comparison.png" alt="Repulsive UDF Comparison" width="70%">
+          
         </div>
       </div>
     </div>
   </section>
+
 
   <section class="section">
     <div class="container is-max-desktop is-fluid">
       <div class="columns is-centered has-text-centered">
         <div class="column is-full-width">
           <h2 class="title is-3">Results</h2>
+          <div class="columns is-centered has-text-centered">
+            <div class="column is-two-thirds content">
+              <p>
+              We show our 3D reconstruction results from a single RGB-D image and compare them with <a href="https://mcc3d.github.io/">MCC</a>. Click the <b>(3D)</b> button for an interactive viewing of the output points!
+              </p>
+            </div>
+          </div>
           <div class="tabs is-boxed is-centered is-medium" id="tabs">
             <ul>
               <li data-tab="iphone" class="is-active"><a>iPhone</a></li>
@@ -180,22 +200,16 @@
               <li data-tab="taskonomy"><a>Taskonomy</a></li>
             </ul>
           </div>
-          <div class="columns is-centered has-text-left">
-            <div class="column is-two-thirds content">
-              <p>Here we show some examples of using MCC to reconstruct a full 3D object from a single RGB-D image.
-              We show the input image, a "seen" point cloud combining the pixels and depths of each input pixel,
-              and the resulting object predicted by MCC.</p>
-              <p>Click the "3D" button next to each prediction to view it in 3D!</p>
-            </div>
-          </div>
+          
+
           <div id="tabs-content">
             <div data-content="iphone" class="tab-content is-active content has-text-left">
-              <div class="columns is-centered has-text-left">
+              <div class="columns is-centered has-text-centered">
                 <div class="column is-two-thirds content">
-                  MCC works out of the box on novel object categories never seen during training.
-                  We used the LiDAR sensor of an iPhone 14 Pro to capture RGB-D images of objects around our homes
-                  (using <a href="https://record3d.app/">Record3D</a>) and found that MCC gives reasonable
-                  reconstructions in this zero-shot setting.
+
+                  Trained on CO3D dataset, NU-MCC works on novel object categories not seen during training. Here, the RGB-D images were captured
+                  with an iPhone 14 Pro using <a href="https://record3d.app/">Record3D</a> app. 
+
                 </div>
               </div>
               <table width="100%">
@@ -307,12 +321,11 @@
               </table>
             </div>
             <div data-content="dalle2" class="tab-content content">
-              <div class="columns is-centered has-text-left">
+              <div class="columns is-centered has-text-centered">
                 <div class="column is-two-thirds content">
-                  MCC works on images generated from <a href="https://openai.com/dall-e-2/">DALL<span>&#183;</span>E 2</a>.
-                  Since the generated images do not include depth, we use
-                  <a href="https://github.com/isl-org/DPT">an off-the-shelf depth prediction model</a>
-                  to estimate depth for these images before feeding to MCC.
+                  We show the 3D reconstruction of the images generated using Stable Diffusion (using <a href="https://dreamstudio.ai/">DreamStudio API</a>). The depth is estimated
+                  using <a href="https://github.com/isl-org/DPT">an off-the-shelf depth prediction model</a> and the mask
+                   using <a href="https://github.com/facebookresearch/segment-anything">Segment Anything</a>.
                 </div>
               </div>
               <table width="100%">
@@ -389,10 +402,9 @@
               </table>
             </div>
             <div data-content="co3d" class="tab-content content">
-              <div class="columns is-centered has-text-left">
+              <div class="columns is-centered has-text-centered">
                 <div class="column is-two-thirds content">
-                  MCC was trained on the <a href="https://github.com/facebookresearch/co3d">CO3D dataset</a>.
-                  Here we show predictions from CO3D categories that were not seen during training.
+                  Here, we show the results from the CO3D validation set.
                 </div>
               </div>
               <table width="100%">
@@ -516,12 +528,11 @@
               </table>
             </div>
             <div data-content="imagenet" class="tab-content content">
-              <div class="columns is-centered has-text-left">
+              <div class="columns is-centered has-text-centered">
                 <div class="column is-two-thirds content">
-                  MCC generalizes to novel object categories from ImageNet.
-                  Since ImageNet images do not include depth, we use
-                  <a href="https://github.com/isl-org/DPT">an off-the-shelf depth prediction model</a>
-                  to estimate depth for these images before feeding to MCC.
+                   NU-MCC generalizes to novel object categories from ImageNet. We show challenging object categories, such as lawnmower and cannon can be reconstructed reasonably. The depth is estimated
+                  using <a href="https://github.com/isl-org/DPT">an off-the-shelf depth prediction model</a> and the mask
+                   using <a href="https://github.com/facebookresearch/segment-anything">Segment Anything</a>.
                 </div>
               </div>
               <table width="100%">
@@ -592,11 +603,14 @@
               </table>
             </div>
             <div data-content="hypersim" class="tab-content content">
-              <div class="columns is-centered has-text-left">
+              <div class="columns is-centered has-text-centered">
                 <div class="column is-two-thirds content">
-                  MCC works not only on objects, but also on entire scenes.
-                  We retrain the model on the <a href="https://github.com/apple/ml-hypersim">Hypersim</a> dataset,
-                  and show single-image scene reconstructions on novel scenes not seen during training.
+                  We demonstrate NU-MCC's capability to reconstruct scenes. Here, the model is trained on the <a href="https://github.com/apple/ml-hypersim">Hypersim</a> 
+                  dataset and we show reconstructions on novel scenes not seen during training.
+                  <br>
+                  <br>
+                  <b>Note:</b> In the turntable animations, we trim the walls such that two sides of the scenes are open for better visualizations of the internals. Additionally, we 
+                  do not superimpose the seen points to the reconstructions as done in <a href="https://mcc3d.github.io/">MCC</a>.
                 </div>
               </div>
               <table width="100%">
@@ -639,11 +653,14 @@
               </table>
             </div>
             <div data-content="taskonomy" class="tab-content content">
-              <div class="columns is-centered has-text-left">
+              <div class="columns is-centered has-text-centered">
                 <div class="column is-two-thirds content">
-                  MCC can also generalize zero-shot to novel scene datasets.
-                  After training the model on the <a href="https://github.com/apple/ml-hypersim">Hypersim</a> dataset,
-                  we show single-image scene reconstructions on novel scenes from <a href="http://taskonomy.stanford.edu/">Taskonomy</a>.
+                  Here, we show of generalization capability of NU-MCC trained on <a href="https://github.com/apple/ml-hypersim">Hypersim</a> 
+                  dataset to novel scenes from <a href="http://taskonomy.stanford.edu/">Taskonomy</a>.
+                  <br>
+                  <br>
+                  <b>Note:</b> In the turntable animations, we trim the walls such that two sides of the scenes are open for better visualizations of the internals. Additionally, we 
+                  do not superimpose the seen points to the reconstructions as done in <a href="https://mcc3d.github.io/">MCC</a>.
                 </div>
               </div>
               <table width="100%">
@@ -695,14 +712,33 @@
   <section class="section" id="BibTeX">
     <div class="container is-max-desktop content">
       <h2 class="title">BibTeX</h2>
-      <pre><code>@article{wu2023multiview,
-  author    = {Wu, Chao-Yuan and Johnson, Justin and Malik, Jitendra and Feichtenhofer, Christoph and Gkioxari, Georgia},
-  title     = {Multiview Compressive Coding for 3{D} Reconstruction},
-  journal   = {arXiv:2301.08247},
-  year      = {2023},
+      <pre><code>@article{lionar2023tba,
+  author    = {Lionar, Stefan and Xu, Xiangyu and Lin, Min and Lee, Gim Hee},
+  title     = {TBA},
+  journal   = {TBA},
+  year      = {2023}
 }</code></pre>
     </div>
   </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="content has-text-centered">
+      </div>
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content has-text-centered">
+            <p>
+              This webpage template is inherited from <a href="https://mcc3d.github.io/">MCC</a>. 
+            </p>
+          </div>
+        </div>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
 
   <div id="modal" class="modal">
     <div class="modal-background"></div>
