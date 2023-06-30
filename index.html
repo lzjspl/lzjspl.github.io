@@ -39,7 +39,7 @@
             <h1 class="title is-2 publication-title">NU-MCC: Multiview Compressive Coding with Neighborhood Decoder and Repulsive UDF</h1>
             <div class="is-size-5 publication-authors">
               <span class="author-block">
-                <a href="https://github.com/splionar" target="_blank" rel="noopener noreferrer">Stefan Lionar</a><sup>1,2*</sup>,</span>
+                <a href="https://github.com/splionar" target="_blank" rel="noopener noreferrer">Stefan Lionar</a><sup>1,2</sup>,</span>
               <span class="author-block">
                 <a href="https://sites.google.com/view/xiangyuxu" target="_blank" rel="noopener noreferrer">Xiangyu Xu</a><sup>1*</sup>,</span>
               <span class="author-block">
@@ -48,13 +48,15 @@
                 <a href="https://www.comp.nus.edu.sg/~leegh/" target="_blank" rel="noopener noreferrer">Gim Hee Lee</a><sup>2 </sup></span>
             </div>
 
-            <div class="column is-full_width">
-              <h2 class="is-size-6">*Equal Contribution</h2>
-            </div>
+            
 
             <div class="is-size-5 publication-authors">
               <span class="author-block"><sup>1</sup>Sea AI Lab</span>&nbsp;&nbsp;
               <span class="author-block"><sup>2</sup>National University of Singapore</span>
+            </div>
+
+            <div class="column is-full_width">
+              <h2 class="is-size-6">*Corresponding author</h2>
             </div>
 
             <div class="column has-text-centered">
@@ -147,7 +149,7 @@
           <div class="content has-text-justified">
             
 
-            <p><h2 class="title is-3">Overview</h2>
+            <p><h3 class="title is-3">Overview</h3>
               <img src="static/images/pipeline.png" alt="Overview" width="100%">
               Given an input single-view RGB-D image, we first unproject the pixels into the 3D world frame, resulting in a textured partial point cloud. 
               We then employ a standard ViT to extract visual features from the partial point cloud. Next, we introduce our Neighborhood Decoder, 
@@ -156,7 +158,7 @@
                directly from the input, significantly improving the efficiency and reconstruction quality. During inference, the predicted UDF is used to shift the query points to the surface of the 3D object, 
                leading to high-quality 3D reconstruction. Repulsive forces between query points are employed to fix the hole artifacts in the standard UDF.
 
-               <h2 class="title is-3">Repulsive UDF</h2>
+               <h3 class="title is-3">Repulsive UDF</h3>
                
             </p>
             
@@ -165,12 +167,12 @@
           <img src="static/images/rudf.png" alt="Repulsive UDF" width="56%">
           
           <div class="content has-text-justified">
-            <p>The standard UDF formulation allows the generation of dense points around surfaces by shifting query points guided by their UDFs and UDF gradients. However, the standard formulation favors 
+            <p>The standard UDF formulation allows the generation of dense points around surfaces by iteratively shifting query points guided by their UDFs and UDF gradients. However, the standard formulation favors 
               regions with high-curvature and thus results in hole artifacts. We introduce repulsion forces among the query points to produce uniform point distribution on the surface.
             </p>   
           </div>
           
-          <img src="static/images/repulsive_comparison.png" alt="Repulsive UDF Comparison" width="70%">
+          <img src="static/images/repulsive_comparison.png" alt="Repulsive UDF Comparison" width="75%">
           
         </div>
       </div>
@@ -186,7 +188,7 @@
           <div class="columns is-centered has-text-centered">
             <div class="column is-two-thirds content">
               <p>
-              We show our 3D reconstruction results from a single RGB-D image and compare them with <a href="https://mcc3d.github.io/">MCC</a>. Click the <b>(3D)</b> button for an interactive viewing of the output points!
+              We show our 3D reconstruction results from single-view RGB-D images and compare them with <a href="https://mcc3d.github.io/">MCC</a>. Click the <b>(3D)</b> button for an interactive viewing of the output points!
               </p>
             </div>
           </div>
@@ -207,7 +209,7 @@
               <div class="columns is-centered has-text-centered">
                 <div class="column is-two-thirds content">
 
-                  Trained on CO3D dataset, NU-MCC works on novel object categories not seen during training. Here, the RGB-D images were captured
+                  Trained on the CO3D dataset, NU-MCC generalizes to in-the-wild novel object categories not seen during training. Here, the RGB-D images were captured
                   with an iPhone 14 Pro using <a href="https://record3d.app/">Record3D</a> app. 
 
                 </div>
@@ -323,7 +325,7 @@
             <div data-content="dalle2" class="tab-content content">
               <div class="columns is-centered has-text-centered">
                 <div class="column is-two-thirds content">
-                  We show the 3D reconstruction of the images generated using Stable Diffusion (using <a href="https://dreamstudio.ai/">DreamStudio API</a>). The depth is estimated
+                  We show the 3D reconstruction of the images generated using Stable Diffusion (utilizing <a href="https://dreamstudio.ai/">DreamStudio</a>). The depth is estimated
                   using <a href="https://github.com/isl-org/DPT">an off-the-shelf depth prediction model</a> and the mask
                    using <a href="https://github.com/facebookresearch/segment-anything">Segment Anything</a>.
                 </div>
@@ -606,7 +608,7 @@
               <div class="columns is-centered has-text-centered">
                 <div class="column is-two-thirds content">
                   We demonstrate NU-MCC's capability to reconstruct scenes. Here, the model is trained on the <a href="https://github.com/apple/ml-hypersim">Hypersim</a> 
-                  dataset and we show reconstructions on novel scenes not seen during training.
+                  dataset and we show the reconstructions on novel scenes not seen during training.
                   <br>
                   <br>
                   <b>Note:</b> In the turntable animations, we trim the walls such that two sides of the scenes are open for better visualizations of the internals. Additionally, we 
